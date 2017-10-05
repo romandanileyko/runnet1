@@ -10,23 +10,52 @@ import net.sf.expectit.ExpectIOException;
 
 import java.io.*;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 import static net.sf.expectit.filter.Filters.removeColors;
 import static net.sf.expectit.filter.Filters.removeNonPrintable;
 import static net.sf.expectit.matcher.Matchers.contains;
+import static org.aspectj.weaver.tools.cache.SimpleCacheFactory.path;
 
 /**
  * Created by danil on 03.10.2017.
  */
 public class SshClient {
+    private Map<String,String> getProperty(){
+        String username = null;
+        String password = null;
+        Map<String,String> map = new HashMap<>();
+
+        Properties properties = new Properties();
+
+        ClassLoader classLoader = getClass().getClassLoader();
+        File file = new File(classLoader.getResource("ssh.properties").getFile());
+        String path = file.getPath();
+
+        try(InputStream inputStream = new FileInputStream(path)){
+            properties.load(inputStream);
+            username = properties.getProperty("username");
+            password = properties.getProperty("password");
+            map.put("username",username);
+            map.put("password",password);
+        } catch (IOException ex){
+            System.out.println("File Error " + ex.getMessage());
+        }
+        return map;
+    }
+
     public String portStatus(String ip,String ifName){
         String status="";
         String[] parts = null;
+
+        Map<String,String> map = getProperty();
+
         try{
              status = new Shell.Plain(
                     new SshByPassword(ip,22,
-                            "drv","ZalupaJan112358")
+                            map.get("username"),map.get("password"))
             ).exec("sh interfaces " + ifName +" status");
             System.out.println("STATUS: " + status);
             parts = status.split("\n");
@@ -46,6 +75,7 @@ public class SshClient {
         if(flag){command = "shutdown";}
         else{command = "no shutdown";}
 
+        Map<String,String> map = getProperty();
 
         Properties properties = new Properties();
 
@@ -53,21 +83,13 @@ public class SshClient {
         File file = new File(classLoader.getResource("ssh.properties").getFile());
         String path = file.getPath();
 
-        try(InputStream inputStream = new FileInputStream(path)){
-            properties.load(inputStream);
-            username = properties.getProperty("username");
-            password = properties.getProperty("password");
-        } catch (IOException ex){
-            System.out.println("File Error " + ex.getMessage());
-        }
-
         try{
             JSch jSch = new JSch();
-            Session session = jSch.getSession(username,ip,22);
+            Session session = jSch.getSession(map.get("username"),ip,22);
             Properties config = new Properties();
             config.put("StrictHostKeyChecking", "no");
             session.setConfig(config);
-            session.setPassword(password);
+            session.setPassword(map.get("password"));
             session.connect();
 
             ChannelShell channel = (ChannelShell) session.openChannel("shell");
