@@ -27,11 +27,13 @@ public class MacCustomerDaoImpl implements MacCustomerDao {
     @Override
     public List<Object[]> userPort(String user) {
         List<Object[]> result = new ArrayList<>();
+        String sql = "SELECT DISTINCT mcv.PUSER,mcv.MAC,hcl.DEVICE_IP,hcl.IFNAME,hcl.CLIENTIP,hcl.STATUS,\n" +
+                "  first_value(hcl.UPDATETIME) OVER (PARTITION BY mcv.PUSER,mcv.MAC,hcl.DEVICE_IP,hcl.IFNAME,hcl.CLIENTIP,hcl.STATUS ORDER BY UPDATETIME DESC ) AS LAST_UPDATE_TIME\n" +
+                "  FROM RUNNET.MAC_CUSTOMER_V mcv,RUNNET.HCLIENTSTATUS hcl\n" +
+                "WHERE mcv.MAC = hcl.MAC\n" +
+                "AND mcv.PUSER LIKE 'Vdr%'";
 
-        Query query = entityManager.createQuery("SELECT DISTINCT mcv, hcl FROM MacCustomer mcv,ClientStatus hcl" +
-                " WHERE mcv.mac = hcl.mac" +
-                " AND mcv.puser LIKE 'Vdr%'" +
-                " ORDER BY hcl.updatetime DESC");
+        Query query = entityManager.createNativeQuery(sql);
         return result = query.getResultList();
     }
 }

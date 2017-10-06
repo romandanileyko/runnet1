@@ -9,6 +9,7 @@ import ru.danileyko.model.Device;
 import ru.danileyko.model.MacCustomer;
 import ru.danileyko.model.PortStatus;
 import ru.danileyko.reports.ReportStatusOfPort;
+import ru.danileyko.reports.UserPorts;
 import ru.danileyko.service.DeviceService;
 import ru.danileyko.service.MacCustomerService;
 import ru.danileyko.sshclient.SshClient;
@@ -83,15 +84,22 @@ public class DataController {
     }
 
     @RequestMapping("/userport")
-    public @ResponseBody String getUserPort(){
+    public @ResponseBody List<UserPorts> getUserPort(){
         List<Object[]> listObj = macCustomerService.userPort(null);
+        UserPorts userPorts = new UserPorts();
+        List<UserPorts> userPortsList = new ArrayList<>();
 
-        for(Object o[]:listObj) {
-            MacCustomer macCustomer = (MacCustomer) o[0];
-            ClientStatus clientStatus = (ClientStatus) o[1];
-
-            System.out.println(macCustomer.getMac()+ macCustomer.getPuser()+ clientStatus.getStatus() + clientStatus.getUpdatetime());
-        }
-        return "string";
+        listObj.forEach((record)->{
+            System.out.println ((String) record[0]);
+            System.out.println ((String) record[1]);
+            userPorts.setPuser((String) record[0]);
+            userPorts.setMac((String) record[1]);
+            userPorts.setDeviceIp((String) record[2]);
+            userPorts.setIfName((String) record[3]);
+            userPorts.setStatus((String) record[4]);
+            userPorts.setLastDateUpdate((String) record[5]);
+            userPortsList.add(userPorts);
+        });
+        return userPortsList;
     }
 }
