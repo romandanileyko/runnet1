@@ -12,6 +12,8 @@ import java.util.List;
 @Table(name = "MAC_CUSTOMER_V")
 public class MacCustomer implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "MAC_CUSTOMER_SEQ")
+    @SequenceGenerator(name = "MAC_CUSTOMER_SEQ",sequenceName = "MAC_CUSTOMER_SEQ",allocationSize = 1)
     private Long id;
     @Column(name = "PUSER")
     private String puser;
