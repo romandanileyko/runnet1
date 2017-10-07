@@ -14,6 +14,7 @@ import ru.danileyko.service.DeviceService;
 import ru.danileyko.service.MacCustomerService;
 import ru.danileyko.sshclient.SshClient;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -85,7 +86,7 @@ public class DataController {
 
     @RequestMapping("/userport")
     public @ResponseBody List<UserPorts> getUserPort(){
-        List<Object[]> listObj = macCustomerService.userPort(null);
+        List<Object[]> listObj = macCustomerService.userPort("Vdr");
         UserPorts userPorts = new UserPorts();
         List<UserPorts> userPortsList = new ArrayList<>();
 
@@ -96,8 +97,9 @@ public class DataController {
             userPorts.setMac((String) record[1]);
             userPorts.setDeviceIp((String) record[2]);
             userPorts.setIfName((String) record[3]);
-            userPorts.setStatus((String) record[4]);
-            userPorts.setLastDateUpdate((String) record[5]);
+            userPorts.setClientIp((String) record[4]);
+            userPorts.setStatus((String) record[5]);
+            userPorts.setLastDateUpdate((Timestamp) record[6]);
             userPortsList.add(userPorts);
         });
         return userPortsList;

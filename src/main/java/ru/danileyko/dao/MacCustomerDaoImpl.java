@@ -31,9 +31,9 @@ public class MacCustomerDaoImpl implements MacCustomerDao {
                 "  first_value(hcl.UPDATETIME) OVER (PARTITION BY mcv.PUSER,mcv.MAC,hcl.DEVICE_IP,hcl.IFNAME,hcl.CLIENTIP,hcl.STATUS ORDER BY UPDATETIME DESC ) AS LAST_UPDATE_TIME\n" +
                 "  FROM RUNNET.MAC_CUSTOMER_V mcv,RUNNET.HCLIENTSTATUS hcl\n" +
                 "WHERE mcv.MAC = hcl.MAC\n" +
-                "AND mcv.PUSER LIKE 'Vdr%'";
+                "AND mcv.PUSER LIKE ?";
 
-        Query query = entityManager.createNativeQuery(sql);
+        Query query = entityManager.createNativeQuery(sql).setParameter(1,user+"%");
         return result = query.getResultList();
     }
 }
