@@ -1,9 +1,7 @@
 package ru.danileyko.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.danileyko.model.ClientStatus;
 import ru.danileyko.model.Device;
 import ru.danileyko.model.MacCustomer;
@@ -84,22 +82,26 @@ public class DataController {
         return "save";
     }
 
-    @RequestMapping("/userport")
-    public @ResponseBody List<UserPorts> getUserPort(){
-        List<Object[]> listObj = macCustomerService.userPort("Vdr");
-        UserPorts userPorts = new UserPorts();
+    @RequestMapping(value = "/userport",method = RequestMethod.POST)
+    public @ResponseBody List<UserPorts> getUserPort(@RequestParam("puser") String puser){
+        List<Object[]> listObj = macCustomerService.userPort(puser);
+
         List<UserPorts> userPortsList = new ArrayList<>();
 
         listObj.forEach((record)->{
+            UserPorts userPorts = new UserPorts();
             System.out.println ((String) record[0]);
             System.out.println ((String) record[1]);
+            System.out.println ((String) record[5]);
             userPorts.setPuser((String) record[0]);
             userPorts.setMac((String) record[1]);
             userPorts.setDeviceIp((String) record[2]);
             userPorts.setIfName((String) record[3]);
             userPorts.setClientIp((String) record[4]);
             userPorts.setStatus((String) record[5]);
-            userPorts.setLastDateUpdate((Timestamp) record[6]);
+            userPorts.setLastDateUpdate((Timestamp) record[8]);
+            userPorts.setAdminStatus((String) record[6]);
+            userPorts.setHostel((String) record[7]);
             userPortsList.add(userPorts);
         });
         return userPortsList;
