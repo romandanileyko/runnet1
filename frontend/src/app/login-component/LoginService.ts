@@ -12,8 +12,11 @@ export class LoginService{
       .map(res=>{
         console.log(res.headers.get("authorization")),
           localStorage.setItem("Authorization",res.headers.get("authorization"));
-        this.router.navigate(['./test']);
-
+          if(this.jwtData(res.headers.get("authorization"))=='ROLE_ADMIN') {
+            this.router.navigate(['./admin']);
+          } else if (this.jwtData(res.headers.get("authorization"))=='ROLE_USER'){
+            this.router.navigate(['./user']);
+          }
       }).subscribe(
 
       error => console.log(error)
@@ -36,4 +39,19 @@ export class LoginService{
     this.router.navigate(['./']);
   }
 
+  jwtData(jwtToken){
+    let token = jwtToken;
+
+    let jwtData = token.split('.')[1];
+    let decodedJwtJsonData = window.atob(jwtData);
+    let decodedJwtData = JSON.parse(decodedJwtJsonData);
+
+    let userRole = decodedJwtData.roles[0].authority;
+
+    // console.log('jwtData: ' + jwtData);
+    // console.log('decodedJwtJsonData: ' + decodedJwtJsonData);
+    // console.log('decodedJwtData: ' + decodedJwtData);
+    console.log('role: ' + userRole);
+    return userRole;
+  }
 }

@@ -1,12 +1,13 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <script src="../main.ts"></script>
-<div style="text-align:center">
-  <h1>
-    Welcome to {{title}}!
-  </h1>
-  <img width="300" src = "./assets/tpu_logotip_rgb-04.png">
-</div>
+<form  *ngIf="auth.loggedIn()">
+  <button (click)="logout()">logout</button>
+</form>
 <div>
+  <nav *ngIf="auth.loggedIn()">
+    <a routerLink="./admin">Панель администрирования</a>
+    <a routerLink="./user">Личный кабинет</a>
+  </nav>
   <router-outlet></router-outlet>
 </div>
 
