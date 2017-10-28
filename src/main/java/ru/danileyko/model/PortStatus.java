@@ -1,6 +1,7 @@
 package ru.danileyko.model;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 
@@ -21,8 +22,8 @@ public class PortStatus {
     @Column(name = "LAST_OPERATIONALSTATUS")
     private String operationalStatus;
     @Column(name = "LAST_INDATE",insertable = false,updatable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date lastInDate;
+  //  @Temporal(TemporalType.TIMESTAMP)
+    private LocalDateTime lastInDate;
 
     @ManyToOne
     @JoinColumns({
@@ -71,11 +72,11 @@ public class PortStatus {
         this.operationalStatus = operationalStatus;
     }
 
-    public Date getLastInDate() {
+    public LocalDateTime getLastInDate() {
         return lastInDate;
     }
 
-    public void setLastInDate(Date lastInDate) {
+    public void setLastInDate(LocalDateTime lastInDate) {
         this.lastInDate = lastInDate;
     }
 

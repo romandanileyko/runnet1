@@ -32,6 +32,6 @@ public class DeviceDaoImpl implements DeviceDao {
                 "AND dp.device.ip = ps.ip " +
                 "AND dp.ifName = ps.ifName "+
                 "AND ps.ip not like '109.123.128.%'"+
-                "AND ps.adminStatus <> 'Up'").setMaxResults(10).getResultList();
+                "AND ps.adminStatus <> 'Up'").setMaxResults(70).getResultList();
     }
 }

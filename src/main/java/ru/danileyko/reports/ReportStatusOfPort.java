@@ -14,9 +14,9 @@ public class ReportStatusOfPort {
     private String ifName;
     private String adminStatus;
     private String operationalStatus;
-    private Date updTime;
+    private LocalDateTime updTime;
 
-    public   ReportStatusOfPort(String devName ,String devIp,String ifName,String adminStatus,String operationalStatus,Date updTime){
+    public   ReportStatusOfPort(String devName ,String devIp,String ifName,String adminStatus,String operationalStatus,LocalDateTime updTime){
         this.devName = devName;
         this.devIp = devIp;
         this.ifName = ifName;
@@ -45,7 +45,7 @@ public class ReportStatusOfPort {
         return operationalStatus;
     }
 
-    public Date getUpdTime() {
+    public LocalDateTime getUpdTime() {
         return updTime;
     }
 }

@@ -61,15 +61,15 @@ public class DataController {
     }
 
     @RequestMapping("/sshtest")
-    public @ResponseBody String getStatus(){
+    public @ResponseBody String getStatus(@RequestParam("devIp") String devIp,@RequestParam("ifName") String ifName){
         SshClient sshClient = new SshClient();
-        return sshClient.portStatus("10.2.57.7","FastEthernet0/44");
+        return sshClient.portStatus(devIp,ifName);
     }
 
-    @RequestMapping("/shut")
-    public @ResponseBody String setShutdown(){
+    @RequestMapping(value = "/shut",method = RequestMethod.POST)
+    public @ResponseBody String setShutdown(@RequestParam("devIp") String devIp,@RequestParam("ifName") String ifName){
         SshClient sshClient = new SshClient();
-        sshClient.portStatusChange("10.2.57.7","FastEthernet0/44",false);
+        sshClient.portStatusChange(devIp.trim(),ifName.trim(),false);
         return "shutdown";
     }
     @RequestMapping("/savemac")

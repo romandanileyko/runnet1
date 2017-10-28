@@ -1,3 +1,31 @@
 <div>
   {{testText}}
 </div>
+<div>
+  <table  class="table table-striped">
+    <thead>
+    <tr>
+      <th>Устройство</th>
+      <th>IP</th>
+      <th>Порт</th>
+      <th>Admin Status</th>
+      <th>Operational Status</th>
+      <th>Дата</th>
+      <th>Запрос Статуса</th>
+      <th>Вкл./Выкл.</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let item of portstatus;">
+      <td>{{item.devName}}  </td>
+      <td>{{item.devIp}} </td>
+      <td>{{item.ifName}}  </td>
+      <td>{{item.adminStatus}} </td>
+      <td>{{item.operationalStatus}}  </td>
+      <td>{{item.updTime.dayOfMonth+"-"+item.updTime.month+"-"+item.updTime.year+" " +item.updTime.hour+":"+item.updTime.minute+":"+item.updTime.second}} </td>
+      <td><button (click)='portStatus(item)' type="button" class="btn btn-default">Уточнить Статус</button></td>
+      <td><button (click)='unBlockPort(item)' type="button" class="btn btn-default">Разблокировать!</button></td>
+    </tr>
+    </tbody>
+  </table>
+</div>

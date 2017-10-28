@@ -66,7 +66,7 @@ var _a, _b;
 /***/ "../../../../../src/app/admin-component/admin.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div>\r\n  {{testText}}\r\n</div>\r\n"
+module.exports = "<div>\r\n  {{testText}}\r\n</div>\r\n<div>\r\n  <table  class=\"table table-striped\">\r\n    <thead>\r\n    <tr>\r\n      <th>Устройство</th>\r\n      <th>IP</th>\r\n      <th>Порт</th>\r\n      <th>Admin Status</th>\r\n      <th>Operational Status</th>\r\n      <th>Дата</th>\r\n      <th>Запрос Статуса</th>\r\n      <th>Вкл./Выкл.</th>\r\n    </tr>\r\n    </thead>\r\n    <tbody>\r\n    <tr *ngFor=\"let item of portstatus;\">\r\n      <td>{{item.devName}}  </td>\r\n      <td>{{item.devIp}} </td>\r\n      <td>{{item.ifName}}  </td>\r\n      <td>{{item.adminStatus}} </td>\r\n      <td>{{item.operationalStatus}}  </td>\r\n      <td>{{item.updTime.dayOfMonth+\"-\"+item.updTime.month+\"-\"+item.updTime.year+\" \" +item.updTime.hour+\":\"+item.updTime.minute+\":\"+item.updTime.second}} </td>\r\n      <td><button (click)='portStatus(item)' type=\"button\" class=\"btn btn-default\">Уточнить Статус</button></td>\r\n      <td><button (click)='unBlockPort(item)' type=\"button\" class=\"btn btn-default\">Разблокировать!</button></td>\r\n    </tr>\r\n    </tbody>\r\n  </table>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -76,6 +76,7 @@ module.exports = "<div>\r\n  {{testText}}\r\n</div>\r\n"
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AdminComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__admin_service__ = __webpack_require__("../../../../../src/app/admin-component/admin.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -86,23 +87,107 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
+
 var AdminComponent = (function () {
-    function AdminComponent() {
+    function AdminComponent(admServ) {
+        this.admServ = admServ;
     }
     AdminComponent.prototype.ngOnInit = function () {
+        var _this = this;
         this.testText = "Hello World!";
+        this.admServ.getNotUpStatusPort().subscribe(function (response) { _this.portstatus = response; }),
+            function (error) { return console.log(error); },
+            function () { return console.log(_this.portstatus); };
+    };
+    AdminComponent.prototype.unBlockPort = function (item) {
+        var _this = this;
+        console.log("Device Ip: " + item.devIp + " Interface Name: " + item.ifName);
+        this.admServ.setNoShut(item.devIp, item.ifName).subscribe(function (response) { console.log(response), _this.portStatus(item); }, function (error) { return console.log(error); });
+    };
+    AdminComponent.prototype.portStatus = function (item) {
+        var _this = this;
+        this.admServ.portStatus(item.devIp, item.ifName).subscribe(function (response) {
+            _this.currentPortStatus = response.text();
+            alert("Current Port Status: " + _this.currentPortStatus);
+        }, function (error2) { return console.log(error2); });
     };
     return AdminComponent;
 }());
 AdminComponent = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
         selector: 'admin',
-        template: __webpack_require__("../../../../../src/app/admin-component/admin.component.html")
+        template: __webpack_require__("../../../../../src/app/admin-component/admin.component.html"),
+        providers: [__WEBPACK_IMPORTED_MODULE_1__admin_service__["a" /* AdminService */]]
     }),
-    __metadata("design:paramtypes", [])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__admin_service__["a" /* AdminService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__admin_service__["a" /* AdminService */]) === "function" && _a || Object])
 ], AdminComponent);
 
+var _a;
 //# sourceMappingURL=admin.component.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app/admin-component/admin.service.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AdminService; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_catch__ = __webpack_require__("../../../../rxjs/add/operator/catch.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_catch___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_catch__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs__ = __webpack_require__("../../../../rxjs/Rx.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs__);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+var AdminService = (function () {
+    function AdminService(http) {
+        this.http = http;
+    }
+    AdminService.prototype.getNotUpStatusPort = function () {
+        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]({ 'Authorization': '' + localStorage.getItem('Authorization') });
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: headers });
+        return this.http.get('./portstatus', options).map(function (res) { return res.json(); });
+    };
+    AdminService.prototype.setNoShut = function (devIp, ifName) {
+        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]();
+        headers.append('Authorization', localStorage.getItem('Authorization'));
+        headers.append('Content-Type', 'application/x-www-form-urlencoded');
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: headers });
+        var params = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["e" /* URLSearchParams */]();
+        params.set('devIp', devIp.toString());
+        params.set('ifName', ifName.toString());
+        console.log('Call from shut method!');
+        return this.http.post('./shut', params.toString(), { headers: headers })
+            .map(function (res) { return res.toString(); })
+            .catch(function (error) { return __WEBPACK_IMPORTED_MODULE_3_rxjs__["Observable"].throw(error); });
+        ;
+    };
+    AdminService.prototype.portStatus = function (devIp, ifName) {
+        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]({ 'Authorization': '' + localStorage.getItem('Authorization') });
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: headers });
+        return this.http.get('./sshtest?devIp=' + devIp + '&ifName=' + ifName, options).map(function (res) { return res; });
+    };
+    return AdminService;
+}());
+AdminService = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]) === "function" && _a || Object])
+], AdminService);
+
+var _a;
+//# sourceMappingURL=admin.service.js.map
 
 /***/ }),
 
@@ -189,12 +274,14 @@ var _a;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__admin_component_admin_component__ = __webpack_require__("../../../../../src/app/admin-component/admin.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__AuthGuard__ = __webpack_require__("../../../../../src/app/AuthGuard.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__user_component_user_component__ = __webpack_require__("../../../../../src/app/user-component/user.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__admin_component_admin_service__ = __webpack_require__("../../../../../src/app/admin-component/admin.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -228,10 +315,10 @@ AppModule = __decorate([
         imports: [
             __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
             __WEBPACK_IMPORTED_MODULE_5__angular_forms__["a" /* FormsModule */],
-            __WEBPACK_IMPORTED_MODULE_6__angular_http__["b" /* HttpModule */],
+            __WEBPACK_IMPORTED_MODULE_6__angular_http__["c" /* HttpModule */],
             __WEBPACK_IMPORTED_MODULE_4__angular_router__["b" /* RouterModule */].forRoot(appRoutes)
         ],
-        providers: [__WEBPACK_IMPORTED_MODULE_7__login_component_LoginService__["a" /* LoginService */], __WEBPACK_IMPORTED_MODULE_9__AuthGuard__["a" /* AuthGuard */]],
+        providers: [__WEBPACK_IMPORTED_MODULE_7__login_component_LoginService__["a" /* LoginService */], __WEBPACK_IMPORTED_MODULE_9__AuthGuard__["a" /* AuthGuard */], __WEBPACK_IMPORTED_MODULE_11__admin_component_admin_service__["a" /* AdminService */]],
         bootstrap: [__WEBPACK_IMPORTED_MODULE_2__app_component__["a" /* AppComponent */]]
     })
 ], AppModule);
@@ -312,7 +399,7 @@ var LoginService = (function () {
 }());
 LoginService = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Http */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* Router */]) === "function" && _b || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* Router */]) === "function" && _b || Object])
 ], LoginService);
 
 var _a, _b;

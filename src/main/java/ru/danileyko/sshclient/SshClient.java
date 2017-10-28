@@ -112,6 +112,7 @@ public class SshClient {
                 expect.sendLine("interface " + ifName);
                 expect.expect(contains("config-if"));
                 expect.sendLine(command);
+                expect.expect(contains("config-if"));
             } catch (ExpectIOException ex){
                 System.out.println("Expect Error: "+ex.getMessage());
             }

@@ -10,6 +10,7 @@ import {LoginService} from "./login-component/LoginService";
 import {AdminComponent} from "./admin-component/admin.component";
 import {AuthGuard} from "./AuthGuard";
 import {UserComponent} from "./user-component/user.component";
+import {AdminService} from "./admin-component/admin.service";
 
 const appRoutes: Routes =[
   {path:'',component:LoginComponent},
@@ -31,7 +32,7 @@ const appRoutes: Routes =[
     HttpModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [LoginService,AuthGuard],
+  providers: [LoginService,AuthGuard,AdminService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
