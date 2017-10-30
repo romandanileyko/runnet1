@@ -29,4 +29,27 @@ export class AdminService{
       let options = new RequestOptions({headers:headers});
       return this.http.get('./sshtest?devIp='+devIp+'&ifName='+ifName,options).map(res=>res)
     }
+    userPortStatus(vUser) {
+      let headers = new Headers();
+      headers.append('Authorization',localStorage.getItem('Authorization'));
+      headers.append('Content-Type', 'application/x-www-form-urlencoded');
+      let options = new RequestOptions({headers:headers});
+      let params = new URLSearchParams();
+      params.set('puser',vUser);
+      return this.http.post('./userport',params,options)
+        .map(response => response.json())
+        .catch((error:any) =>{return Observable.throw(error);});;
+    }
+
+    dhcpLog(vUser){
+      let headers = new Headers();
+      headers.append('Authorization',localStorage.getItem('Authorization'));
+      headers.append('Content-Type', 'application/x-www-form-urlencoded');
+      let options = new RequestOptions({headers:headers});
+      let params = new URLSearchParams();
+      params.set('vUser',vUser);
+      return this.http.post('./dhcplog',params,options)
+        .map(response => response.json())
+        .catch((error:any) =>{return Observable.throw(error);});;
+    }
 }

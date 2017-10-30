@@ -2,13 +2,11 @@ package ru.danileyko.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import ru.danileyko.model.ClientStatus;
-import ru.danileyko.model.Device;
-import ru.danileyko.model.MacCustomer;
-import ru.danileyko.model.PortStatus;
+import ru.danileyko.model.*;
 import ru.danileyko.reports.ReportStatusOfPort;
 import ru.danileyko.reports.UserPorts;
 import ru.danileyko.service.DeviceService;
+import ru.danileyko.service.DhcpLogService;
 import ru.danileyko.service.MacCustomerService;
 import ru.danileyko.sshclient.SshClient;
 
@@ -27,6 +25,9 @@ public class DataController {
 
     @Autowired
     private MacCustomerService macCustomerService;
+
+    @Autowired
+    private DhcpLogService dhcpLogService;
 
     @RequestMapping("/user")
     public @ResponseBody String getUser(){
@@ -105,5 +106,10 @@ public class DataController {
             userPortsList.add(userPorts);
         });
         return userPortsList;
+    }
+
+    @RequestMapping(value = "/dhcplog")
+    public @ResponseBody List<DhcpLogView> getDhcpLogByUserName(@RequestParam("vUser") String vUser){
+        return dhcpLogService.getDhcpLogUserByUserName(vUser);
     }
 }

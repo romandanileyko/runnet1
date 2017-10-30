@@ -7,6 +7,8 @@
   <nav *ngIf="auth.loggedIn()">
     <a routerLink="./admin">Панель администрирования</a>
     <a routerLink="./user">Личный кабинет</a>
+    <a routerLink="./user-status">Статус порта</a>
+    <a routerLink="./dhcplog">DHCP</a>
   </nav>
   <router-outlet></router-outlet>
 </div>
