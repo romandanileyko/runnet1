@@ -1,5 +1,7 @@
 package ru.danileyko.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -30,6 +32,7 @@ public class PortStatus {
             @JoinColumn(name = "IP",referencedColumnName = "DEVID",insertable = false,updatable = false),
             @JoinColumn(name = "IFNAME",referencedColumnName = "IFNAME",insertable = false,updatable = false)
     })
+    @JsonManagedReference
     private DevPort devPort;
 
     public Long getId() {

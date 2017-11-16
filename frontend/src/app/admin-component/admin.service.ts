@@ -52,4 +52,17 @@ export class AdminService{
         .map(response => response.json())
         .catch((error:any) =>{return Observable.throw(error);});;
     }
+
+    customerInfo(vUser){
+      let headers = new Headers();
+      headers.append('Authorization',localStorage.getItem('Authorization'));
+      headers.append('Content-Type', 'application/x-www-form-urlencoded');
+      let options = new RequestOptions({headers:headers});
+      let params = new URLSearchParams();
+      params.set('vUser',vUser);
+
+      return this.http.post('./customerinfo',params,options)
+        .map(response => response.json())
+        .catch((error:any) =>{return Observable.throw(error);});;
+    }
 }

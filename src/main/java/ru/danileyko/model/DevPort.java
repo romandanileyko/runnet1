@@ -1,5 +1,8 @@
 package ru.danileyko.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -16,14 +19,17 @@ public class DevPort implements Serializable {
     private Long id;
     @ManyToOne
     @JoinColumn(name = "DEVID")
+    @JsonManagedReference
     private Device device;
     @Column(name = "IFNAME")
     private String ifName;
 
     @OneToMany(mappedBy = "port")
+    @JsonBackReference
     private List<ClientStatus> clientStatus = new ArrayList<>();
 
     @OneToMany(mappedBy = "devPort")
+    @JsonBackReference
     private List<PortStatus> portStatusList = new ArrayList<>();
 
     public List<ClientStatus> getClientStatus() {

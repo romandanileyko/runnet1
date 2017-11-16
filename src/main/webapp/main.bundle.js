@@ -203,6 +203,18 @@ var AdminService = (function () {
             .catch(function (error) { return __WEBPACK_IMPORTED_MODULE_3_rxjs__["Observable"].throw(error); });
         ;
     };
+    AdminService.prototype.customerInfo = function (vUser) {
+        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]();
+        headers.append('Authorization', localStorage.getItem('Authorization'));
+        headers.append('Content-Type', 'application/x-www-form-urlencoded');
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: headers });
+        var params = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["e" /* URLSearchParams */]();
+        params.set('vUser', vUser);
+        return this.http.post('./customerinfo', params, options)
+            .map(function (response) { return response.json(); })
+            .catch(function (error) { return __WEBPACK_IMPORTED_MODULE_3_rxjs__["Observable"].throw(error); });
+        ;
+    };
     return AdminService;
 }());
 AdminService = __decorate([
@@ -236,7 +248,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/app.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<!--The content below is only a placeholder and can be replaced.-->\n<script src=\"../main.ts\"></script>\n<form  *ngIf=\"auth.loggedIn()\">\n  <button (click)=\"logout()\">logout</button>\n</form>\n<div>\n  <nav *ngIf=\"auth.loggedIn()\">\n    <a routerLink=\"./admin\">Панель администрирования</a>\n    <a routerLink=\"./user\">Личный кабинет</a>\n    <a routerLink=\"./user-status\">Статус порта</a>\n    <a routerLink=\"./dhcplog\">DHCP</a>\n  </nav>\n  <router-outlet></router-outlet>\n</div>\n\n"
+module.exports = "<!--The content below is only a placeholder and can be replaced.-->\n<script src=\"../main.ts\"></script>\n<form  *ngIf=\"auth.loggedIn()\">\n  <button (click)=\"logout()\">logout</button>\n</form>\n<div>\n  <nav *ngIf=\"auth.isAdmin()\">\n    <a routerLink=\"./admin\">Заблокированные</a>\n    <a routerLink=\"./user-status\">Статус порта</a>\n    <a routerLink=\"./dhcplog\">DHCP</a>\n    <a routerLink=\"./customerinfo\">Информация о пользователе</a>\n  </nav>\n  <router-outlet></router-outlet>\n</div>\n\n"
 
 /***/ }),
 
@@ -301,6 +313,7 @@ var _a;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__admin_component_admin_service__ = __webpack_require__("../../../../../src/app/admin-component/admin.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__user_status_component_userstatus_component__ = __webpack_require__("../../../../../src/app/user-status-component/userstatus.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__dhcp_component_dhcp_component__ = __webpack_require__("../../../../../src/app/dhcp-component/dhcp.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__customer_component_customer_info_component__ = __webpack_require__("../../../../../src/app/customer-component/customer-info.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -321,13 +334,15 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
+
 var appRoutes = [
     { path: '', component: __WEBPACK_IMPORTED_MODULE_3__login_component_login_component__["a" /* LoginComponent */] },
     { path: 'login', component: __WEBPACK_IMPORTED_MODULE_3__login_component_login_component__["a" /* LoginComponent */] },
     { path: 'admin', component: __WEBPACK_IMPORTED_MODULE_8__admin_component_admin_component__["a" /* AdminComponent */], canActivate: [__WEBPACK_IMPORTED_MODULE_9__AuthGuard__["a" /* AuthGuard */]] },
     { path: 'user', component: __WEBPACK_IMPORTED_MODULE_10__user_component_user_component__["a" /* UserComponent */], canActivate: [__WEBPACK_IMPORTED_MODULE_9__AuthGuard__["a" /* AuthGuard */]] },
     { path: 'user-status', component: __WEBPACK_IMPORTED_MODULE_12__user_status_component_userstatus_component__["a" /* userStatus */] },
-    { path: 'dhcplog', component: __WEBPACK_IMPORTED_MODULE_13__dhcp_component_dhcp_component__["a" /* DhcpComponent */] }
+    { path: 'dhcplog', component: __WEBPACK_IMPORTED_MODULE_13__dhcp_component_dhcp_component__["a" /* DhcpComponent */] },
+    { path: 'customerinfo', component: __WEBPACK_IMPORTED_MODULE_14__customer_component_customer_info_component__["a" /* CustomerInfoComponent */] }
 ];
 var AppModule = (function () {
     function AppModule() {
@@ -342,7 +357,8 @@ AppModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_8__admin_component_admin_component__["a" /* AdminComponent */],
             __WEBPACK_IMPORTED_MODULE_10__user_component_user_component__["a" /* UserComponent */],
             __WEBPACK_IMPORTED_MODULE_12__user_status_component_userstatus_component__["a" /* userStatus */],
-            __WEBPACK_IMPORTED_MODULE_13__dhcp_component_dhcp_component__["a" /* DhcpComponent */]
+            __WEBPACK_IMPORTED_MODULE_13__dhcp_component_dhcp_component__["a" /* DhcpComponent */],
+            __WEBPACK_IMPORTED_MODULE_14__customer_component_customer_info_component__["a" /* CustomerInfoComponent */]
         ],
         imports: [
             __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
@@ -356,6 +372,61 @@ AppModule = __decorate([
 ], AppModule);
 
 //# sourceMappingURL=app.module.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app/customer-component/customer-info.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<!DOCTYPE html>\r\n<html lang=\"en\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <title>Title</title>\r\n</head>\r\n<div>\r\n  <div class=\"form-group col-xs-1\">\r\n    <label>Имя пользователя:</label>\r\n    <input class=\"form-control\" type=\"text\" name=\"login\" [(ngModel)] = \"vUser\" />\r\n    <button class=\"btn btn-default\" (click)=\"getCustomerInfoData(vUser)\">Запрос</button>\r\n  </div>\r\n</div>\r\n<div>\r\n  <table  class=\"table table-striped\">\r\n    <thead>\r\n    <tr>\r\n      <th>Логин</th>\r\n      <th>MAC</th>\r\n      <th>ip</th>\r\n      <th>ФИО</th>\r\n      <th>Телефон</th>\r\n      <th>EMAIL</th>\r\n      <th>IsBlock</th>\r\n      <th>Текущий статус</th>\r\n      <th>Баланс</th>\r\n      <th>Общежитие</th>\r\n    </tr>\r\n    </thead>\r\n    <tbody>\r\n    <tr *ngFor=\"let item of customerInfo\">\r\n      <td>{{item.pUser}}  </td>\r\n      <td>\r\n        <table>\r\n          <ng-container *ngFor=\"let macItem of item.macCustomers\" >\r\n            <tr>{{macItem.mac}}</tr>\r\n          </ng-container>\r\n        </table>\r\n      </td>\r\n      <td>\r\n        <table>\r\n          <ng-container *ngFor=\"let macItem of item.macCustomers\" >\r\n              <tr *ngIf=\"macItem.ip\">{{macItem.ip.ip}}</tr>\r\n          </ng-container>\r\n        </table>\r\n      </td>\r\n      <td>{{item.company}}</td>\r\n      <td>{{item.phone }} </td>\r\n      <td>{{item.email}}  </td>\r\n      <td>{{item.blocked}}</td>\r\n      <td>{{item.balans.currentStatus}}</td>\r\n      <td>{{item.balans.ostatok}}</td>\r\n      <td>{{item.hostel.name}}</td>\r\n    </tr>\r\n    </tbody>\r\n  </table>\r\n</div>\r\n</html>\r\n"
+
+/***/ }),
+
+/***/ "../../../../../src/app/customer-component/customer-info.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CustomerInfoComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__admin_component_admin_service__ = __webpack_require__("../../../../../src/app/admin-component/admin.service.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+/**
+ * Created by danil on 16.11.2017.
+ */
+
+
+var CustomerInfoComponent = (function () {
+    function CustomerInfoComponent(admService) {
+        this.admService = admService;
+    }
+    CustomerInfoComponent.prototype.getCustomerInfoData = function (vUser) {
+        var _this = this;
+        this.admService.customerInfo(vUser).subscribe(function (response) {
+            _this.customerInfo = response,
+                function (error) { return console.log(error); };
+        });
+    };
+    return CustomerInfoComponent;
+}());
+CustomerInfoComponent = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+        selector: 'customer-info',
+        template: __webpack_require__("../../../../../src/app/customer-component/customer-info.component.html"),
+        providers: [__WEBPACK_IMPORTED_MODULE_1__admin_component_admin_service__["a" /* AdminService */]]
+    }),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__admin_component_admin_service__["a" /* AdminService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__admin_component_admin_service__["a" /* AdminService */]) === "function" && _a || Object])
+], CustomerInfoComponent);
+
+var _a;
+//# sourceMappingURL=customer-info.component.js.map
 
 /***/ }),
 
@@ -421,6 +492,8 @@ var _a;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_map__ = __webpack_require__("../../../../rxjs/add/operator/map.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_map__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs__ = __webpack_require__("../../../../rxjs/Rx.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_rxjs__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -430,6 +503,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -444,15 +518,23 @@ var LoginService = (function () {
         var _this = this;
         this.http.post('./login', credentials)
             .map(function (res) {
+            console.log(res);
             console.log(res.headers.get("authorization")),
                 localStorage.setItem("Authorization", res.headers.get("authorization"));
             if (_this.jwtData(res.headers.get("authorization")) == 'ROLE_ADMIN') {
+                _this.isAdminRole = true;
                 _this.router.navigate(['./admin']);
             }
             else if (_this.jwtData(res.headers.get("authorization")) == 'ROLE_USER') {
+                _this.isAdminRole = false;
                 _this.router.navigate(['./user']);
             }
-        }).subscribe(function (error) { return console.log(error); });
+        }).catch(function (error) {
+            if (error.status == 401) {
+                _this.errorCode = 401;
+            }
+            return __WEBPACK_IMPORTED_MODULE_4_rxjs__["Observable"].throw(error);
+        }).subscribe(function (error) { console.log("Error: " + error); });
     };
     //There is returning loggedin status
     LoginService.prototype.loggedIn = function () {
@@ -474,10 +556,26 @@ var LoginService = (function () {
         var decodedJwtData = JSON.parse(decodedJwtJsonData);
         var userRole = decodedJwtData.roles[0].authority;
         // console.log('jwtData: ' + jwtData);
-        // console.log('decodedJwtJsonData: ' + decodedJwtJsonData);
+        //  console.log('decodedJwtJsonData: ' + decodedJwtJsonData);
         // console.log('decodedJwtData: ' + decodedJwtData);
         console.log('role: ' + userRole);
         return userRole;
+    };
+    LoginService.prototype.isAdmin = function () {
+        if (this.isAdminRole) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    };
+    LoginService.prototype.isLoginFailed = function () {
+        if (this.errorCode == 401) {
+            return true;
+        }
+        else {
+            return false;
+        }
     };
     return LoginService;
 }());
@@ -512,7 +610,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/login-component/login.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div style=\"text-align:center\" >\r\n  <img width=\"300\" src = \"./assets/tpu_logotip_rgb-04.png\">\r\n</div>\r\n<div class=\"container\">\r\n  <div class=\"row\">\r\n    <div class=\"col-sm-10 col-sm-offset-1 hid\">\r\n      <div class=\"row\">\r\n        <div class=\"col-sm-10 col-sm-offset-3 text-center\">\r\n          <form class=\"form-group col-xs-10\" #f=\"ngForm\" (ngSubmit)=\"onLogin(f.value)\" *ngIf=\"!auth.loggedIn()\">\r\n            <input class=\"form-control\" type=\"text\" placeholder=\"username\" name=\"username\" ngModel> <br>\r\n            <input class=\"form-control\" type=\"password\" placeholder=\"password\" name=\"password\" ngModel> <br>\r\n            <button class=\"btn btn-primary btn-md btn-block\" type=\"submit\">login</button>\r\n            <!--  <button (click)=\"logout()\">logout</button> -->\r\n          </form>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<div style=\"text-align:center\" >\r\n  <img width=\"300\" src = \"./assets/tpu_logotip_rgb-04.png\">\r\n</div>\r\n<div class=\"container\">\r\n  <div class=\"row\">\r\n    <div class=\"col-sm-10 col-sm-offset-1 hid\">\r\n      <div class=\"row\">\r\n        <div class=\"col-sm-10 col-sm-offset-3 text-center\">\r\n          <form class=\"form-group col-xs-10\" #f=\"ngForm\" (ngSubmit)=\"onLogin(f.value)\" *ngIf=\"!auth.loggedIn()\">\r\n            <input class=\"form-control\" type=\"text\" placeholder=\"username\" name=\"username\" ngModel required> <br>\r\n            <input class=\"form-control\" type=\"password\" placeholder=\"password\" name=\"password\" ngModel> <br>\r\n            <button class=\"btn btn-primary btn-md btn-block\" type=\"submit\">login</button>\r\n            <span *ngIf=\"auth.isLoginFailed()\">Неправильное имя и/или пароль!</span>\r\n            <!--  <button (click)=\"logout()\">logout</button> -->\r\n          </form>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 

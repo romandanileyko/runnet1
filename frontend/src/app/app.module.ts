@@ -13,6 +13,7 @@ import {UserComponent} from "./user-component/user.component";
 import {AdminService} from "./admin-component/admin.service";
 import {userStatus} from "./user-status-component/userstatus.component";
 import {DhcpComponent} from "./dhcp-component/dhcp.component";
+import {CustomerInfoComponent} from "./customer-component/customer-info.component";
 
 const appRoutes: Routes =[
   {path:'',component:LoginComponent},
@@ -20,7 +21,8 @@ const appRoutes: Routes =[
   {path:'admin',component:AdminComponent,canActivate:[AuthGuard]},
   {path:'user',component:UserComponent,canActivate:[AuthGuard]},
   {path:'user-status',component:userStatus},
-  {path:'dhcplog',component:DhcpComponent}
+  {path:'dhcplog',component:DhcpComponent},
+  {path:'customerinfo',component:CustomerInfoComponent}
 ];
 
 @NgModule({
@@ -30,7 +32,8 @@ const appRoutes: Routes =[
     AdminComponent,
     UserComponent,
     userStatus,
-    DhcpComponent
+    DhcpComponent,
+    CustomerInfoComponent
   ],
   imports: [
     BrowserModule,

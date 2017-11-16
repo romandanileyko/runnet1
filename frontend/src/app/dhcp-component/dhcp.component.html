@@ -1,0 +1,29 @@
+<div>
+  <div class="form-group col-xs-1">
+    <label>Имя пользователя:</label>
+    <input class="form-control" type="text" name="login" [(ngModel)] = "vUser" />
+    <button class="btn btn-default" (click)="getDhcpLogData(vUser)">Запрос</button>
+  </div>
+</div>
+<div>
+  <table  class="table table-striped">
+    <thead>
+    <tr>
+      <th>Логин</th>
+      <th>MAC</th>
+      <th>Тип записи</th>
+      <th>Ip</th>
+      <th>Дата</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let item of dhcpLogData">
+      <td>{{item.pUser}}  </td>
+      <td>{{item.mac}} </td>
+      <td>{{item.logType}}  </td>
+      <td>{{item.ip }}  </td>
+      <td>{{item.logDate.dayOfMonth + "-" + item.logDate.month + "-" + item.logDate.year + " " + item.logDate.hour + ":" +item.logDate.minute + ":" + item.logDate.second }}  </td>
+    </tr>
+    </tbody>
+  </table>
+</div>

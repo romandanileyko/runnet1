@@ -4,11 +4,11 @@
   <button (click)="logout()">logout</button>
 </form>
 <div>
-  <nav *ngIf="auth.loggedIn()">
-    <a routerLink="./admin">Панель администрирования</a>
-    <a routerLink="./user">Личный кабинет</a>
+  <nav *ngIf="auth.isAdmin()">
+    <a routerLink="./admin">Заблокированные</a>
     <a routerLink="./user-status">Статус порта</a>
     <a routerLink="./dhcplog">DHCP</a>
+    <a routerLink="./customerinfo">Информация о пользователе</a>
   </nav>
   <router-outlet></router-outlet>
 </div>

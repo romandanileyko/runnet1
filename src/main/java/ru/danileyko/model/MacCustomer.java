@@ -1,8 +1,11 @@
 package ru.danileyko.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -32,12 +35,25 @@ public class MacCustomer implements Serializable {
     @Column(name = "CREATED_BY")
     private String createdBy;
     @Column(name = "DATE_MODIFIED")
-    private Timestamp dateModified;
+    private LocalDateTime dateModified;
     @Column(name = "DATE_CREATED")
-    private Timestamp dateCreated;
+    private LocalDateTime dateCreated;
 
     @OneToMany(mappedBy = "macCustomer")
+    @JsonBackReference
     private List<ClientStatus> statusList;
+
+    @OneToOne
+    @JoinColumn(name = "IP_DETAIL_ID",insertable = false,updatable = false)
+    private IpDetail ip;
+
+    public IpDetail getIp() {
+        return ip;
+    }
+
+    public void setIp(IpDetail ip) {
+        this.ip = ip;
+    }
 
     public Long getId() {
         return id;
@@ -111,19 +127,19 @@ public class MacCustomer implements Serializable {
         this.createdBy = createdBy;
     }
 
-    public Timestamp getDateModified() {
+    public LocalDateTime getDateModified() {
         return dateModified;
     }
 
-    public void setDateModified(Timestamp dateModified) {
+    public void setDateModified(LocalDateTime dateModified) {
         this.dateModified = dateModified;
     }
 
-    public Timestamp getDateCreated() {
+    public LocalDateTime getDateCreated() {
         return dateCreated;
     }
 
-    public void setDateCreated(Timestamp dateCreated) {
+    public void setDateCreated(LocalDateTime dateCreated) {
         this.dateCreated = dateCreated;
     }
 

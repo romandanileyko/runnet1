@@ -1,5 +1,7 @@
 package ru.danileyko.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -25,6 +27,7 @@ public class Device implements Serializable {
     private String model;
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "device",fetch = FetchType.LAZY)
+    @JsonBackReference
     List<DevPort> ports = new ArrayList<>();
 
     public List<DevPort> getPorts() {

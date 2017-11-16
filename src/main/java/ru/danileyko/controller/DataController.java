@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.danileyko.model.*;
 import ru.danileyko.reports.ReportStatusOfPort;
 import ru.danileyko.reports.UserPorts;
+import ru.danileyko.service.CustomerService;
 import ru.danileyko.service.DeviceService;
 import ru.danileyko.service.DhcpLogService;
 import ru.danileyko.service.MacCustomerService;
@@ -28,6 +29,8 @@ public class DataController {
 
     @Autowired
     private DhcpLogService dhcpLogService;
+    @Autowired
+    private CustomerService customerService;
 
     @RequestMapping("/user")
     public @ResponseBody String getUser(){
@@ -111,5 +114,10 @@ public class DataController {
     @RequestMapping(value = "/dhcplog")
     public @ResponseBody List<DhcpLogView> getDhcpLogByUserName(@RequestParam("vUser") String vUser){
         return dhcpLogService.getDhcpLogUserByUserName(vUser);
+    }
+
+    @RequestMapping(value = "/customerinfo")
+    public @ResponseBody List<CustumerInfo> getCustomerInfo(@RequestParam("vUser") String vUser){
+        return customerService.getAllCustomerInfo(vUser);
     }
 }
