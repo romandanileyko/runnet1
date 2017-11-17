@@ -1,0 +1,37 @@
+<div>
+  <div class="form-group col-xs-1">
+    <label>Имя пользователя:</label>
+    <input class="form-control" type="text" name="login" [(ngModel)] = "vUser" />
+    <button class="btn btn-default" (click)="getUserPortStatus(vUser)">Запрос</button>
+  </div>
+</div>
+  <div>
+    <table  class="table table-striped">
+      <thead>
+      <tr>
+        <th>Логин</th>
+        <th>Общежитие</th>
+        <th>MAC</th>
+        <th>Device IP</th>
+        <th>Interface</th>
+        <th>Client IP</th>
+        <th>Admin Status</th>
+        <th>Status</th>
+        <th>Дата</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let item of userPortStatus">
+        <td>{{item.puser}}  </td>
+        <td>{{item.hostel}}  </td>
+        <td>{{item.mac}} </td>
+        <td>{{item.deviceIp}}  </td>
+        <td>{{item.ifName}} </td>
+        <td>{{item.clientIp}}  </td>
+        <td>{{item.adminStatus}} </td>
+        <td>{{item.status}}  </td>
+        <td>{{item.lastDateUpdate | date}}  </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<div>
+  <div class="form-group col-xs-1">
+    <label>Имя пользователя:</label>
+    <input class="form-control" type="text" name="login" [(ngModel)] = "vUser" />
+    <button class="btn btn-default" (click)="getCustomerInfoData(vUser)">Запрос</button>
+  </div>
+</div>
+<div>
+  <table  class="table table-striped">
+    <thead>
+    <tr>
+      <th>Логин</th>
+      <th>MAC</th>
+      <th>ip</th>
+      <th>ФИО</th>
+      <th>Телефон</th>
+      <th>EMAIL</th>
+      <th>IsBlock</th>
+      <th>Текущий статус</th>
+      <th>Баланс</th>
+      <th>Общежитие</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let item of customerInfo">
+      <td>{{item.pUser}}  </td>
+      <td>
+        <table>
+          <ng-container *ngFor="let macItem of item.macCustomers">
+            <tr>{{macItem.mac}}</tr>
+          </ng-container>
+        </table>
+      </td>
+      <td>
+        <table>
+          <ng-container *ngFor="let macItem of item.macCustomers" >
+              <tr *ngIf="macItem.ip">{{macItem.ip.ip}}</tr>
+          </ng-container>
+        </table>
+      </td>
+      <td>{{item.company}}</td>
+      <td>{{item.phone }} </td>
+      <td>{{item.email}}  </td>
+      <td>{{item.blocked}}</td>
+      <td>{{item.balans.currentStatus}}</td>
+      <td>{{item.balans.ostatok}}</td>
+      <td>{{item.hostel.name}}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+</html>
