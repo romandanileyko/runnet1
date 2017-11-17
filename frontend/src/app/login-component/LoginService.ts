@@ -55,11 +55,31 @@ export class LoginService{
 
     let userRole = decodedJwtData.roles[0].authority;
 
-    // console.log('jwtData: ' + jwtData);
+   // console.log('jwtData: ' + jwtData);
    //  console.log('decodedJwtJsonData: ' + decodedJwtJsonData);
    // console.log('decodedJwtData: ' + decodedJwtData);
-    console.log('role: ' + userRole);
+   //  console.log('role: ' + userRole);
+   //  console.log('date: ' + new Date());
+   //  console.log('date1: ' + new Date(decodedJwtData.exp));
     return userRole;
+  }
+
+  jwtIsExpire(jwtToken){
+    let token = jwtToken;
+
+    let jwtData = token.split('.')[1];
+    let decodedJwtJsonData = window.atob(jwtData);
+    let decodedJwtData = JSON.parse(decodedJwtJsonData);
+
+    var expireDate = decodedJwtData.exp;
+    var currentDate = Date.now()*0.001;
+    console.log("EXP:"+expireDate);
+    console.log("CUR:"+currentDate);
+    let logOutFlag = false;
+    if(currentDate > expireDate){
+      logOutFlag = true;
+    }
+    return logOutFlag;
   }
 
   isAdmin(){

@@ -20,9 +20,9 @@ const appRoutes: Routes =[
   {path:'login',component:LoginComponent},
   {path:'admin',component:AdminComponent,canActivate:[AuthGuard]},
   {path:'user',component:UserComponent,canActivate:[AuthGuard]},
-  {path:'user-status',component:userStatus},
-  {path:'dhcplog',component:DhcpComponent},
-  {path:'customerinfo',component:CustomerInfoComponent}
+  {path:'user-status',component:userStatus,canActivate:[AuthGuard]},
+  {path:'dhcplog',component:DhcpComponent,canActivate:[AuthGuard]},
+  {path:'customerinfo',component:CustomerInfoComponent,canActivate:[AuthGuard]}
 ];
 
 @NgModule({

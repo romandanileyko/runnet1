@@ -16,7 +16,7 @@ export class AdminComponent implements OnInit{
   constructor(private admServ:AdminService){}
 
   ngOnInit(){
-    this.testText="Hello World!";
+    //this.testText="Hello World!";
     this.admServ.getNotUpStatusPort().subscribe(response =>{this.portstatus = response}),
        error=>console.log(error),
       ()=>console.log(this.portstatus)

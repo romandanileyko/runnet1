@@ -43,7 +43,13 @@ var AuthGuard = (function () {
         this.router = router;
     }
     AuthGuard.prototype.canActivate = function () {
-        if (this.auth.loggedIn()) {
+        var token = localStorage.getItem("Authorization");
+        if (this.auth.jwtIsExpire(token)) {
+            this.auth.logout();
+            this.router.navigateByUrl('/login');
+            return false;
+        }
+        else if (this.auth.loggedIn()) {
             return true;
         }
         else {
@@ -66,7 +72,7 @@ var _a, _b;
 /***/ "../../../../../src/app/admin-component/admin.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div>\r\n  {{testText}}\r\n</div>\r\n<div>\r\n  <table  class=\"table table-striped\">\r\n    <thead>\r\n    <tr>\r\n      <th>Устройство</th>\r\n      <th>IP</th>\r\n      <th>Порт</th>\r\n      <th>Admin Status</th>\r\n      <th>Operational Status</th>\r\n      <th>Дата</th>\r\n      <th>Запрос Статуса</th>\r\n      <th>Вкл./Выкл.</th>\r\n    </tr>\r\n    </thead>\r\n    <tbody>\r\n    <tr *ngFor=\"let item of portstatus;\">\r\n      <td>{{item.devName}}  </td>\r\n      <td>{{item.devIp}} </td>\r\n      <td>{{item.ifName}}  </td>\r\n      <td>{{item.adminStatus}} </td>\r\n      <td>{{item.operationalStatus}}  </td>\r\n      <td>{{item.updTime.dayOfMonth+\"-\"+item.updTime.month+\"-\"+item.updTime.year+\" \" +item.updTime.hour+\":\"+item.updTime.minute+\":\"+item.updTime.second}} </td>\r\n      <td><button (click)='portStatus(item)' type=\"button\" class=\"btn btn-default\">Уточнить Статус</button></td>\r\n      <td><button (click)='unBlockPort(item)' type=\"button\" class=\"btn btn-default\">Разблокировать!</button></td>\r\n    </tr>\r\n    </tbody>\r\n  </table>\r\n</div>\r\n"
+module.exports = "<div>\r\n  <table  class=\"table table-striped\">\r\n    <thead>\r\n    <tr>\r\n      <th>Устройство</th>\r\n      <th>IP</th>\r\n      <th>Порт</th>\r\n      <th>Admin Status</th>\r\n      <th>Operational Status</th>\r\n      <th>Дата</th>\r\n      <th>Запрос Статуса</th>\r\n      <th>Вкл./Выкл.</th>\r\n    </tr>\r\n    </thead>\r\n    <tbody>\r\n    <tr *ngFor=\"let item of portstatus;\">\r\n      <td>{{item.devName}}  </td>\r\n      <td>{{item.devIp}} </td>\r\n      <td>{{item.ifName}}  </td>\r\n      <td>{{item.adminStatus}} </td>\r\n      <td>{{item.operationalStatus}}  </td>\r\n      <td>{{item.updTime.dayOfMonth+\"-\"+item.updTime.month+\"-\"+item.updTime.year+\" \" +item.updTime.hour+\":\"+item.updTime.minute+\":\"+item.updTime.second}} </td>\r\n      <td><button (click)='portStatus(item)' type=\"button\" class=\"btn btn-default\">Уточнить Статус</button></td>\r\n      <td><button (click)='unBlockPort(item)' type=\"button\" class=\"btn btn-default\">Разблокировать!</button></td>\r\n    </tr>\r\n    </tbody>\r\n  </table>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -94,7 +100,7 @@ var AdminComponent = (function () {
     }
     AdminComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.testText = "Hello World!";
+        //this.testText="Hello World!";
         this.admServ.getNotUpStatusPort().subscribe(function (response) { _this.portstatus = response; }),
             function (error) { return console.log(error); },
             function () { return console.log(_this.portstatus); };
@@ -340,9 +346,9 @@ var appRoutes = [
     { path: 'login', component: __WEBPACK_IMPORTED_MODULE_3__login_component_login_component__["a" /* LoginComponent */] },
     { path: 'admin', component: __WEBPACK_IMPORTED_MODULE_8__admin_component_admin_component__["a" /* AdminComponent */], canActivate: [__WEBPACK_IMPORTED_MODULE_9__AuthGuard__["a" /* AuthGuard */]] },
     { path: 'user', component: __WEBPACK_IMPORTED_MODULE_10__user_component_user_component__["a" /* UserComponent */], canActivate: [__WEBPACK_IMPORTED_MODULE_9__AuthGuard__["a" /* AuthGuard */]] },
-    { path: 'user-status', component: __WEBPACK_IMPORTED_MODULE_12__user_status_component_userstatus_component__["a" /* userStatus */] },
-    { path: 'dhcplog', component: __WEBPACK_IMPORTED_MODULE_13__dhcp_component_dhcp_component__["a" /* DhcpComponent */] },
-    { path: 'customerinfo', component: __WEBPACK_IMPORTED_MODULE_14__customer_component_customer_info_component__["a" /* CustomerInfoComponent */] }
+    { path: 'user-status', component: __WEBPACK_IMPORTED_MODULE_12__user_status_component_userstatus_component__["a" /* userStatus */], canActivate: [__WEBPACK_IMPORTED_MODULE_9__AuthGuard__["a" /* AuthGuard */]] },
+    { path: 'dhcplog', component: __WEBPACK_IMPORTED_MODULE_13__dhcp_component_dhcp_component__["a" /* DhcpComponent */], canActivate: [__WEBPACK_IMPORTED_MODULE_9__AuthGuard__["a" /* AuthGuard */]] },
+    { path: 'customerinfo', component: __WEBPACK_IMPORTED_MODULE_14__customer_component_customer_info_component__["a" /* CustomerInfoComponent */], canActivate: [__WEBPACK_IMPORTED_MODULE_9__AuthGuard__["a" /* AuthGuard */]] }
 ];
 var AppModule = (function () {
     function AppModule() {
@@ -558,8 +564,25 @@ var LoginService = (function () {
         // console.log('jwtData: ' + jwtData);
         //  console.log('decodedJwtJsonData: ' + decodedJwtJsonData);
         // console.log('decodedJwtData: ' + decodedJwtData);
-        console.log('role: ' + userRole);
+        //  console.log('role: ' + userRole);
+        //  console.log('date: ' + new Date());
+        //  console.log('date1: ' + new Date(decodedJwtData.exp));
         return userRole;
+    };
+    LoginService.prototype.jwtIsExpire = function (jwtToken) {
+        var token = jwtToken;
+        var jwtData = token.split('.')[1];
+        var decodedJwtJsonData = window.atob(jwtData);
+        var decodedJwtData = JSON.parse(decodedJwtJsonData);
+        var expireDate = decodedJwtData.exp;
+        var currentDate = Date.now() * 0.001;
+        console.log("EXP:" + expireDate);
+        console.log("CUR:" + currentDate);
+        var logOutFlag = false;
+        if (currentDate > expireDate) {
+            logOutFlag = true;
+        }
+        return logOutFlag;
     };
     LoginService.prototype.isAdmin = function () {
         if (this.isAdminRole) {
