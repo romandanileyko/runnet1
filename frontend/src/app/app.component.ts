@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {LoginService} from "./login-component/LoginService";
+import {NavigationEnd, NavigationStart, Router} from "@angular/router";
 
 @Component({
   selector: 'app-root',
@@ -8,9 +9,11 @@ import {LoginService} from "./login-component/LoginService";
 })
 export class AppComponent {
   title = 'app';
+  initRouter: string;
+  isExpToken: boolean;
 
-  constructor(private auth:LoginService){}
-
+  constructor(private auth:LoginService){
+  }
   logout(){
     this.auth.logout();
   }
