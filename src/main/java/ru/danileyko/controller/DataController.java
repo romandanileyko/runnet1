@@ -1,6 +1,7 @@
 package ru.danileyko.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor;
 import org.springframework.web.bind.annotation.*;
 import ru.danileyko.model.*;
 import ru.danileyko.reports.ReportStatusOfPort;

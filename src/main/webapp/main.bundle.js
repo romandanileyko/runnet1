@@ -254,7 +254,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/app.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<!--The content below is only a placeholder and can be replaced.-->\n<script src=\"../main.ts\"></script>\n<form  *ngIf=\"auth.loggedIn()\">\n  <button (click)=\"logout()\">logout</button>\n</form>\n<div>\n  <nav *ngIf=\"auth.isAdmin()\">\n    <a routerLink=\"./admin\">Заблокированные</a>\n    <a routerLink=\"./user-status\">Статус порта</a>\n    <a routerLink=\"./dhcplog\">DHCP</a>\n    <a routerLink=\"./customerinfo\">Информация о пользователе</a>\n  </nav>\n  <router-outlet></router-outlet>\n</div>\n\n"
+module.exports = "<!--The content below is only a placeholder and can be replaced.-->\n<script src=\"../main.ts\"></script>\n<form  *ngIf=\"auth.loggedIn()\">\n  <button (click)=\"logout()\">logout</button>\n</form>\n<div>\n  <nav *ngIf=\"auth.isAdmin() && !auth.isMainPage()\" class=\"navbar navbar-default\" role=\"navigation\">\n    <div class=\"container-fluid\">\n      <!—Само меню-->\n      <div class=\"collapse navbar-collapse\" id=\"bs-example-navbar-collapse-1\">\n        <ul class=\"nav navbar-nav\">\n          <li class=\"active\">  <a routerLink=\"./admin\">Заблокированные</a></li>\n          <li> <a routerLink=\"./user-status\">Статус порта</a></li>\n          <li><a routerLink=\"./dhcplog\">DHCP</a></li>\n          <li><a routerLink=\"./customerinfo\">Информация о пользователе</a></li>\n        </ul>\n      </div><!-- /.navbar-collapse -->\n    </div><!-- /.container-fluid -->\n  </nav>\n  <router-outlet></router-outlet>\n</div>\n\n"
 
 /***/ }),
 
@@ -384,7 +384,7 @@ AppModule = __decorate([
 /***/ "../../../../../src/app/customer-component/customer-info.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<!DOCTYPE html>\r\n<html lang=\"en\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <title>Title</title>\r\n</head>\r\n<div>\r\n  <div class=\"form-group col-xs-1\">\r\n    <label>Имя пользователя:</label>\r\n    <input class=\"form-control\" type=\"text\" name=\"login\" [(ngModel)] = \"vUser\" />\r\n    <button class=\"btn btn-default\" (click)=\"getCustomerInfoData(vUser)\">Запрос</button>\r\n  </div>\r\n</div>\r\n<div>\r\n  <table  class=\"table table-striped\">\r\n    <thead>\r\n    <tr>\r\n      <th>Логин</th>\r\n      <th>MAC</th>\r\n      <th>ip</th>\r\n      <th>ФИО</th>\r\n      <th>Телефон</th>\r\n      <th>EMAIL</th>\r\n      <th>IsBlock</th>\r\n      <th>Текущий статус</th>\r\n      <th>Баланс</th>\r\n      <th>Общежитие</th>\r\n    </tr>\r\n    </thead>\r\n    <tbody>\r\n    <tr *ngFor=\"let item of customerInfo\">\r\n      <td>{{item.pUser}}  </td>\r\n      <td>\r\n        <table>\r\n          <ng-container *ngFor=\"let macItem of item.macCustomers\">\r\n            <tr>{{macItem.mac}}</tr>\r\n          </ng-container>\r\n        </table>\r\n      </td>\r\n      <td>\r\n        <table>\r\n          <ng-container *ngFor=\"let macItem of item.macCustomers\" >\r\n              <tr *ngIf=\"macItem.ip\">{{macItem.ip.ip}}</tr>\r\n          </ng-container>\r\n        </table>\r\n      </td>\r\n      <td>{{item.company}}</td>\r\n      <td>{{item.phone }} </td>\r\n      <td>{{item.email}}  </td>\r\n      <td>{{item.blocked}}</td>\r\n      <td>{{item.balans.currentStatus}}</td>\r\n      <td>{{item.balans.ostatok}}</td>\r\n      <td>{{item.hostel.name}}</td>\r\n    </tr>\r\n    </tbody>\r\n  </table>\r\n</div>\r\n</html>\r\n"
+module.exports = "<!DOCTYPE html>\r\n<html lang=\"en\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <title>Title</title>\r\n</head>\r\n<div>\r\n  <div class=\"input-group\">\r\n    <input class=\"form-control\" type=\"text\" name=\"login\" placeholder=\"Введите имя пользователя\" [(ngModel)] = \"vUser\" />\r\n    <span class=\"input-group-btn\">\r\n        <&nbsp;>\r\n    <button class=\"btn btn-default\" (click)=\"getCustomerInfoData(vUser)\">Запрос</button>\r\n  </span>\r\n  </div>\r\n</div>\r\n<div>\r\n  <table  class=\"table table-striped\">\r\n    <thead>\r\n    <tr>\r\n      <th>Логин</th>\r\n      <th>MAC</th>\r\n      <th>ip</th>\r\n      <th>ФИО</th>\r\n      <th>Телефон</th>\r\n      <th>EMAIL</th>\r\n      <th>IsBlock</th>\r\n      <th>Текущий статус</th>\r\n      <th>Баланс</th>\r\n      <th>Общежитие</th>\r\n    </tr>\r\n    </thead>\r\n    <tbody>\r\n    <tr *ngFor=\"let item of customerInfo\">\r\n      <td>{{item.pUser}}  </td>\r\n      <td>\r\n        <table>\r\n          <ng-container *ngFor=\"let macItem of item.macCustomers\">\r\n            <tr>{{macItem.mac}}</tr>\r\n          </ng-container>\r\n        </table>\r\n      </td>\r\n      <td>\r\n        <table>\r\n          <ng-container *ngFor=\"let macItem of item.macCustomers\" >\r\n              <tr *ngIf=\"macItem.ip\">{{macItem.ip.ip}}</tr>\r\n          </ng-container>\r\n        </table>\r\n      </td>\r\n      <td>{{item.company}}</td>\r\n      <td>{{item.phone }} </td>\r\n      <td>{{item.email}}  </td>\r\n      <td>{{item.blocked}}</td>\r\n      <td>{{item.balans.currentStatus}}</td>\r\n      <td>{{item.balans.ostatok}}</td>\r\n      <td>{{item.hostel.name}}</td>\r\n    </tr>\r\n    </tbody>\r\n  </table>\r\n</div>\r\n</html>\r\n"
 
 /***/ }),
 
@@ -439,7 +439,7 @@ var _a;
 /***/ "../../../../../src/app/dhcp-component/dhcp.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div>\r\n  <div class=\"form-group col-xs-1\">\r\n    <label>Имя пользователя:</label>\r\n    <input class=\"form-control\" type=\"text\" name=\"login\" [(ngModel)] = \"vUser\" />\r\n    <button class=\"btn btn-default\" (click)=\"getDhcpLogData(vUser)\">Запрос</button>\r\n  </div>\r\n</div>\r\n<div>\r\n  <table  class=\"table table-striped\">\r\n    <thead>\r\n    <tr>\r\n      <th>Логин</th>\r\n      <th>MAC</th>\r\n      <th>Тип записи</th>\r\n      <th>Ip</th>\r\n      <th>Дата</th>\r\n    </tr>\r\n    </thead>\r\n    <tbody>\r\n    <tr *ngFor=\"let item of dhcpLogData\">\r\n      <td>{{item.pUser}}  </td>\r\n      <td>{{item.mac}} </td>\r\n      <td>{{item.logType}}  </td>\r\n      <td>{{item.ip }}  </td>\r\n      <td>{{item.logDate.dayOfMonth + \"-\" + item.logDate.month + \"-\" + item.logDate.year + \" \" + item.logDate.hour + \":\" +item.logDate.minute + \":\" + item.logDate.second }}  </td>\r\n    </tr>\r\n    </tbody>\r\n  </table>\r\n</div>\r\n"
+module.exports = "<div>\r\n  <div class=\"input-group\">\r\n    <input class=\"form-control\" type=\"text\" name=\"login\" placeholder=\"Введите имя пользователя\" [(ngModel)] = \"vUser\" />\r\n    <span class=\"input-group-btn\">\r\n    <button class=\"btn btn-default\" (click)=\"getDhcpLogData(vUser)\">Запрос</button>\r\n  </span>\r\n  </div>\r\n</div>\r\n<div>\r\n  <table  class=\"table table-striped\">\r\n    <thead>\r\n    <tr>\r\n      <th>Логин</th>\r\n      <th>MAC</th>\r\n      <th>Тип записи</th>\r\n      <th>Ip</th>\r\n      <th>Дата</th>\r\n    </tr>\r\n    </thead>\r\n    <tbody>\r\n    <tr *ngFor=\"let item of dhcpLogData\">\r\n      <td>{{item.pUser}}  </td>\r\n      <td>{{item.mac}} </td>\r\n      <td>{{item.logType}}  </td>\r\n      <td>{{item.ip }}  </td>\r\n      <td>{{item.logDate.dayOfMonth + \"-\" + item.logDate.month + \"-\" + item.logDate.year + \" \" + item.logDate.hour + \":\" +item.logDate.minute + \":\" + item.logDate.second }}  </td>\r\n    </tr>\r\n    </tbody>\r\n  </table>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -524,7 +524,7 @@ var LoginService = (function () {
         var _this = this;
         this.http.post('./login', credentials)
             .map(function (res) {
-            console.log(res);
+            // console.log(res);
             console.log(res.headers.get("authorization")),
                 localStorage.setItem("Authorization", res.headers.get("authorization"));
             if (_this.jwtData(res.headers.get("authorization")) == 'ROLE_ADMIN') {
@@ -544,17 +544,26 @@ var LoginService = (function () {
     };
     //There is returning loggedin status
     LoginService.prototype.loggedIn = function () {
-        if (localStorage.getItem('Authorization')) {
+        if (localStorage.getItem('Authorization') && !this.jwtIsExpire(localStorage.getItem('Authorization'))) {
             return true;
         }
         else {
             return false;
         }
     };
+    //Remove Authorization Token From Local Storage.
     LoginService.prototype.logout = function () {
         localStorage.removeItem('Authorization');
         this.router.navigate(['./']);
     };
+    LoginService.prototype.isMainPage = function () {
+        console.log("Current router: " + this.router.url);
+        if (this.router.url == './')
+            return true;
+        else
+            return false;
+    };
+    //Parse Token's Data
     LoginService.prototype.jwtData = function (jwtToken) {
         var token = jwtToken;
         var jwtData = token.split('.')[1];
@@ -569,6 +578,7 @@ var LoginService = (function () {
         //  console.log('date1: ' + new Date(decodedJwtData.exp));
         return userRole;
     };
+    //Check Token Expiration Time.
     LoginService.prototype.jwtIsExpire = function (jwtToken) {
         var token = jwtToken;
         var jwtData = token.split('.')[1];
@@ -576,12 +586,13 @@ var LoginService = (function () {
         var decodedJwtData = JSON.parse(decodedJwtJsonData);
         var expireDate = decodedJwtData.exp;
         var currentDate = Date.now() * 0.001;
-        console.log("EXP:" + expireDate);
-        console.log("CUR:" + currentDate);
+        // console.log("EXP:"+expireDate);
+        // console.log("CUR:"+currentDate);
         var logOutFlag = false;
         if (currentDate > expireDate) {
             logOutFlag = true;
         }
+        console.log("Token Is Expire: " + logOutFlag);
         return logOutFlag;
     };
     LoginService.prototype.isAdmin = function () {
@@ -633,7 +644,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/login-component/login.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div style=\"text-align:center\" >\r\n  <img width=\"300\" src = \"./assets/tpu_logotip_rgb-04.png\">\r\n</div>\r\n<div class=\"container\">\r\n  <div class=\"row\">\r\n    <div class=\"col-sm-10 col-sm-offset-1 hid\">\r\n      <div class=\"row\">\r\n        <div class=\"col-sm-10 col-sm-offset-3 text-center\">\r\n          <form class=\"form-group col-xs-10\" #f=\"ngForm\" (ngSubmit)=\"onLogin(f.value)\" *ngIf=\"!auth.loggedIn()\">\r\n            <input class=\"form-control\" type=\"text\" placeholder=\"username\" name=\"username\" ngModel required> <br>\r\n            <input class=\"form-control\" type=\"password\" placeholder=\"password\" name=\"password\" ngModel> <br>\r\n            <button class=\"btn btn-primary btn-md btn-block\" type=\"submit\">login</button>\r\n            <span *ngIf=\"auth.isLoginFailed()\">Неправильное имя и/или пароль!</span>\r\n            <!--  <button (click)=\"logout()\">logout</button> -->\r\n          </form>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<div style=\"text-align:center\" >\r\n  <img width=\"300\" align=\"center\" src = \"./assets/tpu_logotip_rgb-04.png\">\r\n</div>\r\n<div class=\"container\">\r\n  <div class=\"row\">\r\n    <div class=\"col-sm-10 col-sm-offset-1 hid\">\r\n      <div class=\"row\">\r\n        <div class=\"col-sm-10 col-sm-offset-3 text-center\">\r\n          <form class=\"form-group col-xs-10\" #f=\"ngForm\" (ngSubmit)=\"onLogin(f.value)\" *ngIf=\"!auth.loggedIn()\">\r\n            <input class=\"form-control\" type=\"text\" placeholder=\"username\" name=\"username\" ngModel required> <br>\r\n            <input class=\"form-control\" type=\"password\" placeholder=\"password\" name=\"password\" ngModel> <br>\r\n            <button class=\"btn btn-primary btn-md btn-block\" type=\"submit\">login</button>\r\n            <span *ngIf=\"auth.isLoginFailed()\">Неправильное имя и/или пароль!</span>\r\n            <!--  <button (click)=\"logout()\">logout</button> -->\r\n          </form>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -728,7 +739,7 @@ UserComponent = __decorate([
 /***/ "../../../../../src/app/user-status-component/user-status.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div>\r\n  <div class=\"form-group col-xs-1\">\r\n    <label>Имя пользователя:</label>\r\n    <input class=\"form-control\" type=\"text\" name=\"login\" [(ngModel)] = \"vUser\" />\r\n    <button class=\"btn btn-default\" (click)=\"getUserPortStatus(vUser)\">Запрос</button>\r\n  </div>\r\n</div>\r\n  <div>\r\n    <table  class=\"table table-striped\">\r\n      <thead>\r\n      <tr>\r\n        <th>Логин</th>\r\n        <th>Общежитие</th>\r\n        <th>MAC</th>\r\n        <th>Device IP</th>\r\n        <th>Interface</th>\r\n        <th>Client IP</th>\r\n        <th>Admin Status</th>\r\n        <th>Status</th>\r\n        <th>Дата</th>\r\n      </tr>\r\n      </thead>\r\n      <tbody>\r\n      <tr *ngFor=\"let item of userPortStatus\">\r\n        <td>{{item.puser}}  </td>\r\n        <td>{{item.hostel}}  </td>\r\n        <td>{{item.mac}} </td>\r\n        <td>{{item.deviceIp}}  </td>\r\n        <td>{{item.ifName}} </td>\r\n        <td>{{item.clientIp}}  </td>\r\n        <td>{{item.adminStatus}} </td>\r\n        <td>{{item.status}}  </td>\r\n        <td>{{item.lastDateUpdate | date}}  </td>\r\n      </tr>\r\n      </tbody>\r\n    </table>\r\n  </div>\r\n"
+module.exports = "<div>\r\n  <div>\r\n    <div class=\"input-group\">\r\n      <input class=\"form-control\" type=\"text\" name=\"login\" placeholder=\"Введите имя пользователя\" [(ngModel)] = \"vUser\" />\r\n      <span class=\"input-group-btn\">\r\n        <&nbsp;>\r\n    <button class=\"btn btn-default\" (click)=\"getUserPortStatus(vUser)\">Запрос</button>\r\n  </span>\r\n    </div>\r\n</div>\r\n  <div>\r\n    <table  class=\"table table-striped\">\r\n      <thead>\r\n      <tr>\r\n        <th>Логин</th>\r\n        <th>Общежитие</th>\r\n        <th>MAC</th>\r\n        <th>Device IP</th>\r\n        <th>Interface</th>\r\n        <th>Client IP</th>\r\n        <th>Admin Status</th>\r\n        <th>Status</th>\r\n        <th>Дата</th>\r\n      </tr>\r\n      </thead>\r\n      <tbody>\r\n      <tr *ngFor=\"let item of userPortStatus\">\r\n        <td>{{item.puser}}  </td>\r\n        <td>{{item.hostel}}  </td>\r\n        <td>{{item.mac}} </td>\r\n        <td>{{item.deviceIp}}  </td>\r\n        <td>{{item.ifName}} </td>\r\n        <td>{{item.clientIp}}  </td>\r\n        <td>{{item.adminStatus}} </td>\r\n        <td>{{item.status}}  </td>\r\n        <td>{{item.lastDateUpdate | date}}  </td>\r\n      </tr>\r\n      </tbody>\r\n    </table>\r\n  </div>\r\n"
 
 /***/ }),
 

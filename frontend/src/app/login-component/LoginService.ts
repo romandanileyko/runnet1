@@ -13,7 +13,7 @@ export class LoginService{
   login(credentials){
     this.http.post('./login',credentials)
       .map(res=>{
-        console.log(res);
+        // console.log(res);
         console.log(res.headers.get("authorization")),
           localStorage.setItem("Authorization",res.headers.get("authorization"));
           if(this.jwtData(res.headers.get("authorization"))=='ROLE_ADMIN') {
@@ -31,21 +31,30 @@ export class LoginService{
   }
   //There is returning loggedin status
   loggedIn(){
-    if(localStorage.getItem('Authorization'))
+    if(localStorage.getItem('Authorization') && !this.jwtIsExpire(localStorage.getItem('Authorization')))
     {
-      return true;
+        return true;
     }
-
     else {
       return false;
     }
   }
 
+  //Remove Authorization Token From Local Storage.
   logout(){
     localStorage.removeItem('Authorization');
     this.router.navigate(['./']);
   }
 
+  isMainPage(){
+    console.log("Current router: "+this.router.url)
+    if(this.router.url == './')
+      return true;
+    else
+      return false;
+  }
+
+  //Parse Token's Data
   jwtData(jwtToken){
     let token = jwtToken;
 
@@ -64,6 +73,7 @@ export class LoginService{
     return userRole;
   }
 
+  //Check Token Expiration Time.
   jwtIsExpire(jwtToken){
     let token = jwtToken;
 
@@ -73,12 +83,13 @@ export class LoginService{
 
     var expireDate = decodedJwtData.exp;
     var currentDate = Date.now()*0.001;
-    console.log("EXP:"+expireDate);
-    console.log("CUR:"+currentDate);
+    // console.log("EXP:"+expireDate);
+    // console.log("CUR:"+currentDate);
     let logOutFlag = false;
     if(currentDate > expireDate){
       logOutFlag = true;
     }
+    console.log("Token Is Expire: " + logOutFlag);
     return logOutFlag;
   }
 

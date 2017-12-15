@@ -8,6 +8,7 @@ import java.util.Date;
 /**
  * Created by danil on 15.09.2017.
  */
+
 public class ReportStatusOfPort {
     private String devName;
     private String devIp;

@@ -1,9 +1,12 @@
 <div>
-  <div class="form-group col-xs-1">
-    <label>Имя пользователя:</label>
-    <input class="form-control" type="text" name="login" [(ngModel)] = "vUser" />
+  <div>
+    <div class="input-group">
+      <input class="form-control" type="text" name="login" placeholder="Введите имя пользователя" [(ngModel)] = "vUser" />
+      <span class="input-group-btn">
+        <&nbsp;>
     <button class="btn btn-default" (click)="getUserPortStatus(vUser)">Запрос</button>
-  </div>
+  </span>
+    </div>
 </div>
   <div>
     <table  class="table table-striped">
