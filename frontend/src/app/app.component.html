@@ -4,7 +4,7 @@
   <button (click)="logout()">logout</button>
 </form>
 <div>
-  <nav *ngIf="auth.isAdmin() && !auth.isMainPage()" class="navbar navbar-default" role="navigation">
+  <nav *ngIf="auth.isAdmin() && auth.loggedIn()" class="navbar navbar-default" role="navigation">
     <div class="container-fluid">
       <!—Само меню-->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
