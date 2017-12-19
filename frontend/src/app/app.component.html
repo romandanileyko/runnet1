@@ -1,12 +1,14 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <script src="../main.ts"></script>
-<form  *ngIf="auth.loggedIn()">
-  <button (click)="logout()">logout</button>
-</form>
+<div align="right">
+  <form  *ngIf="auth.loggedIn()">
+    <button class="btn btn-success btn-md" (click)="logout()">logout</button>
+  </form>
+</div>
+<hr style="color: darkgray">
 <div>
   <nav *ngIf="auth.isAdmin() && auth.loggedIn()" class="navbar navbar-default" role="navigation">
     <div class="container-fluid">
-      <!—Само меню-->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
           <li class="active">  <a routerLink="./admin">Заблокированные</a></li>

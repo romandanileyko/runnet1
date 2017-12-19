@@ -19,7 +19,9 @@ public class CustomerDaoImpl implements CustomerDao {
 
     @Override
     public List<CustumerInfo> getAllCustomerInfo(String vUser) {
-        return entityManager.createQuery("SELECT cust FROM CustumerInfo cust where cust.pUser=:vUser")
+        return entityManager.createQuery("SELECT cust FROM CustumerInfo cust " +
+                "where cust.pUser=:vUser " +
+                "or cust.email = :vUser")
                 .setParameter("vUser",vUser)
                 .setMaxResults(10)
                 .getResultList();

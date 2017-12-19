@@ -21,8 +21,11 @@ public class DhcpLogViewDaoImpl implements DhcpLogViewDao {
     @SuppressWarnings("unchecked")
     @Override
     public List<DhcpLogView> getLogForUserByUserName(String vUser) {
-        return entityManager.createQuery("SELECT dhcp FROM DhcpLogView dhcp where dhcp.pUser=:vUser ORDER BY dhcp.logDate DESC")
-                .setParameter("vUser",vUser)
+        return entityManager.createQuery("SELECT dhcp FROM DhcpLogView dhcp " +
+                "where dhcp.pUser like :vUser " +
+                "or dhcp.mac like :vUser " +
+                "ORDER BY dhcp.logDate DESC")
+                .setParameter("vUser","%"+vUser+"%")
                 .setMaxResults(10)
                 .getResultList();
     }
