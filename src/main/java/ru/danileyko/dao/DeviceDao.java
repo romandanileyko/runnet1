@@ -10,4 +10,5 @@ import java.util.List;
 public interface DeviceDao {
     List<Device> getAllDevices();
     public List<Object[]> getPortStatus1();
+    List<String> getPortsBySwitch(String ip);
 }

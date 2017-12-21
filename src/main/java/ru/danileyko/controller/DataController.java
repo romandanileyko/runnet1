@@ -121,4 +121,9 @@ public class DataController {
     public @ResponseBody List<CustumerInfo> getCustomerInfo(@RequestParam("vUser") String vUser){
         return customerService.getAllCustomerInfo(vUser);
     }
+
+    @RequestMapping(value = "/getports")
+    public @ResponseBody List<String> getPortsBySwitchIp(@RequestParam("ip") String ip){
+        return deviceService.getPortsBySwitch(ip);
+    }
 }

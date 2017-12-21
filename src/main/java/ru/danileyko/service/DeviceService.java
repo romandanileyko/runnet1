@@ -9,5 +9,6 @@ import java.util.List;
  */
 public interface DeviceService {
     List<Device> getAllDevices();
+    public List<String> getPortsBySwitch(String ip);
     public List<Object[]> getPortStatus1();
 }

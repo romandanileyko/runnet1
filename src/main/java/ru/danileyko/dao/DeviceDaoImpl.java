@@ -20,7 +20,14 @@ public class DeviceDaoImpl implements DeviceDao {
     @Override
     @SuppressWarnings("unchecked")
     public List<Device> getAllDevices() {
-        return (List<Device>)entityManager.createQuery("SELECT dev.ip,dev.name,dev.vendor,dev.model from Device dev").getResultList();
+        return entityManager.createQuery("SELECT dev from Device dev",Device.class).getResultList();
+    }
+
+    @Override
+    public List<String> getPortsBySwitch(String ip) {
+        return entityManager.createQuery("select dp.ifName from DevPort dp where dp.device.ip = :ip",String.class)
+                .setParameter("ip",ip)
+                .getResultList();
     }
 
     @Override

@@ -254,7 +254,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/app.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<!--The content below is only a placeholder and can be replaced.-->\n<script src=\"../main.ts\"></script>\n<div align=\"right\">\n  <form  *ngIf=\"auth.loggedIn()\">\n    <button class=\"btn btn-success btn-md\" (click)=\"logout()\">logout</button>\n  </form>\n</div>\n<hr style=\"color: darkgray\">\n<div>\n  <nav *ngIf=\"auth.isAdmin() && auth.loggedIn()\" class=\"navbar navbar-default\" role=\"navigation\">\n    <div class=\"container-fluid\">\n      <div class=\"collapse navbar-collapse\" id=\"bs-example-navbar-collapse-1\">\n        <ul class=\"nav navbar-nav\">\n          <li class=\"active\">  <a routerLink=\"./admin\">Заблокированные</a></li>\n          <li> <a routerLink=\"./user-status\">Статус порта</a></li>\n          <li><a routerLink=\"./dhcplog\">DHCP</a></li>\n          <li><a routerLink=\"./customerinfo\">Информация о пользователе</a></li>\n        </ul>\n      </div><!-- /.navbar-collapse -->\n    </div><!-- /.container-fluid -->\n  </nav>\n  <router-outlet></router-outlet>\n</div>\n\n"
+module.exports = "<!--The content below is only a placeholder and can be replaced.-->\n<script src=\"../main.ts\"></script>\n<div align=\"right\">\n  <form  *ngIf=\"auth.loggedIn()\">\n    <button class=\"btn btn-success btn-md\" (click)=\"logout()\">logout</button>\n  </form>\n</div>\n<hr style=\"color: darkgray\">\n<div>\n  <nav *ngIf=\"auth.isAdmin() && auth.loggedIn()\" class=\"navbar navbar-default\" role=\"navigation\">\n    <div class=\"container-fluid\">\n      <div class=\"collapse navbar-collapse\" id=\"bs-example-navbar-collapse-1\">\n        <ul class=\"nav navbar-nav\">\n          <li class=\"active\">  <a routerLink=\"./admin\">Заблокированные</a></li>\n          <li> <a routerLink=\"./user-status\">Статус порта</a></li>\n          <li><a routerLink=\"./dhcplog\">DHCP</a></li>\n          <li><a routerLink=\"./customerinfo\">Информация о пользователе</a></li>\n          <li><a routerLink=\"./port\">Порт::Настройка</a></li>\n        </ul>\n      </div><!-- /.navbar-collapse -->\n    </div><!-- /.container-fluid -->\n  </nav>\n  <router-outlet></router-outlet>\n</div>\n\n"
 
 /***/ }),
 
@@ -320,12 +320,16 @@ var _a;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__user_status_component_userstatus_component__ = __webpack_require__("../../../../../src/app/user-status-component/userstatus.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__dhcp_component_dhcp_component__ = __webpack_require__("../../../../../src/app/dhcp-component/dhcp.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__customer_component_customer_info_component__ = __webpack_require__("../../../../../src/app/customer-component/customer-info.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__port_component_port_component__ = __webpack_require__("../../../../../src/app/port-component/port.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__port_component_port_service__ = __webpack_require__("../../../../../src/app/port-component/port.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
+
 
 
 
@@ -348,7 +352,8 @@ var appRoutes = [
     { path: 'user', component: __WEBPACK_IMPORTED_MODULE_10__user_component_user_component__["a" /* UserComponent */], canActivate: [__WEBPACK_IMPORTED_MODULE_9__AuthGuard__["a" /* AuthGuard */]] },
     { path: 'user-status', component: __WEBPACK_IMPORTED_MODULE_12__user_status_component_userstatus_component__["a" /* userStatus */], canActivate: [__WEBPACK_IMPORTED_MODULE_9__AuthGuard__["a" /* AuthGuard */]] },
     { path: 'dhcplog', component: __WEBPACK_IMPORTED_MODULE_13__dhcp_component_dhcp_component__["a" /* DhcpComponent */], canActivate: [__WEBPACK_IMPORTED_MODULE_9__AuthGuard__["a" /* AuthGuard */]] },
-    { path: 'customerinfo', component: __WEBPACK_IMPORTED_MODULE_14__customer_component_customer_info_component__["a" /* CustomerInfoComponent */], canActivate: [__WEBPACK_IMPORTED_MODULE_9__AuthGuard__["a" /* AuthGuard */]] }
+    { path: 'customerinfo', component: __WEBPACK_IMPORTED_MODULE_14__customer_component_customer_info_component__["a" /* CustomerInfoComponent */], canActivate: [__WEBPACK_IMPORTED_MODULE_9__AuthGuard__["a" /* AuthGuard */]] },
+    { path: 'port', component: __WEBPACK_IMPORTED_MODULE_15__port_component_port_component__["a" /* PortComponent */], canActivate: [__WEBPACK_IMPORTED_MODULE_9__AuthGuard__["a" /* AuthGuard */]] }
 ];
 var AppModule = (function () {
     function AppModule() {
@@ -364,7 +369,8 @@ AppModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_10__user_component_user_component__["a" /* UserComponent */],
             __WEBPACK_IMPORTED_MODULE_12__user_status_component_userstatus_component__["a" /* userStatus */],
             __WEBPACK_IMPORTED_MODULE_13__dhcp_component_dhcp_component__["a" /* DhcpComponent */],
-            __WEBPACK_IMPORTED_MODULE_14__customer_component_customer_info_component__["a" /* CustomerInfoComponent */]
+            __WEBPACK_IMPORTED_MODULE_14__customer_component_customer_info_component__["a" /* CustomerInfoComponent */],
+            __WEBPACK_IMPORTED_MODULE_15__port_component_port_component__["a" /* PortComponent */]
         ],
         imports: [
             __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
@@ -372,7 +378,7 @@ AppModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_6__angular_http__["c" /* HttpModule */],
             __WEBPACK_IMPORTED_MODULE_4__angular_router__["b" /* RouterModule */].forRoot(appRoutes)
         ],
-        providers: [__WEBPACK_IMPORTED_MODULE_7__login_component_LoginService__["a" /* LoginService */], __WEBPACK_IMPORTED_MODULE_9__AuthGuard__["a" /* AuthGuard */], __WEBPACK_IMPORTED_MODULE_11__admin_component_admin_service__["a" /* AdminService */]],
+        providers: [__WEBPACK_IMPORTED_MODULE_7__login_component_LoginService__["a" /* LoginService */], __WEBPACK_IMPORTED_MODULE_9__AuthGuard__["a" /* AuthGuard */], __WEBPACK_IMPORTED_MODULE_11__admin_component_admin_service__["a" /* AdminService */], __WEBPACK_IMPORTED_MODULE_16__port_component_port_service__["a" /* PortService */]],
         bootstrap: [__WEBPACK_IMPORTED_MODULE_2__app_component__["a" /* AppComponent */]]
     })
 ], AppModule);
@@ -690,6 +696,120 @@ LoginComponent = __decorate([
 
 var _a;
 //# sourceMappingURL=login.component.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app/port-component/port.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div>\r\n\r\n  <div class=\"form-group\">\r\n    <select (change)=\"onChange($event.target.value)\" class=\"form-control\" [(ngModel)]=\"switchSelected\">\r\n      <option *ngFor=\"let item of portList\" [value]=\"item.ip\">{{item.name}}</option>\r\n    </select>\r\n  </div>\r\n\r\n  <div class=\"form-group\" *ngIf=\"changeFlag\">\r\n    <select class=\"form-control\" (change)=\"onChangePort($event.target.value)\" [(ngModel)]=\"portSelected\">\r\n      <option *ngFor=\"let str of interfacetList[0]\" [value]=\"str\">{{str}}</option>\r\n    </select>\r\n  </div>\r\n\r\n  <label class=\"radio-inline\"><input type=\"radio\" name=\"optradio\">Включить</label>\r\n  <label class=\"radio-inline\"><input type=\"radio\" name=\"optradio\">Выключить</label>\r\n\r\n  <span class=\"input-group-btn\">\r\n      <button class=\"btn btn-primary btn-md\" (click)=\"onSubmit()\">Запрос</button>\r\n  </span>\r\n\r\n</div>\r\n"
+
+/***/ }),
+
+/***/ "../../../../../src/app/port-component/port.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PortComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__port_service__ = __webpack_require__("../../../../../src/app/port-component/port.service.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var PortComponent = (function () {
+    function PortComponent(portServ) {
+        this.portServ = portServ;
+        this.changeFlag = false;
+    }
+    PortComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.portServ.getSwitches().subscribe(function (response) {
+            _this.portList = response.json();
+            console.log(response);
+        }, function (error2) { return console.log(error2); });
+    };
+    PortComponent.prototype.onChange = function (newValue) {
+        var _this = this;
+        console.log(newValue);
+        this.selectedDevice = newValue;
+        this.changeFlag = true;
+        this.portServ.getPorts(this.selectedDevice).subscribe(function (response) {
+            _this.interfacetList = response.json();
+            _this.interfacetList = Array.of(_this.interfacetList);
+            console.log(_this.interfacetList);
+        }, function (error2) { return console.log(error2); });
+    };
+    PortComponent.prototype.onChangePort = function (value) {
+        this.portSelected = value;
+    };
+    PortComponent.prototype.onSubmit = function () {
+        alert(this.switchSelected + " " + this.portSelected);
+    };
+    return PortComponent;
+}());
+PortComponent = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+        selector: 'port',
+        template: __webpack_require__("../../../../../src/app/port-component/port.component.html"),
+        providers: [__WEBPACK_IMPORTED_MODULE_1__port_service__["a" /* PortService */]]
+    }),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__port_service__["a" /* PortService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__port_service__["a" /* PortService */]) === "function" && _a || Object])
+], PortComponent);
+
+var _a;
+//# sourceMappingURL=port.component.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app/port-component/port.service.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PortService; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var PortService = (function () {
+    function PortService(http) {
+        this.http = http;
+    }
+    PortService.prototype.getSwitches = function () {
+        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]({ 'Authorization': '' + localStorage.getItem('Authorization') });
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: headers });
+        return this.http.get('./alldev', options).map(function (res) { return res; });
+    };
+    PortService.prototype.getPorts = function (ip) {
+        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]({ 'Authorization': '' + localStorage.getItem('Authorization') });
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: headers });
+        return this.http.get('./getports?ip=' + ip, options).map(function (res) { return res; });
+    };
+    return PortService;
+}());
+PortService = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]) === "function" && _a || Object])
+], PortService);
+
+var _a;
+//# sourceMappingURL=port.service.js.map
 
 /***/ }),
 

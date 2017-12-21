@@ -19,6 +19,12 @@ public class DeviceServiceImpl implements DeviceService {
     public List<Device> getAllDevices() {
         return tDevicesDao.getAllDevices();
     }
+
+    @Override
+    public List<String> getPortsBySwitch(String ip) {
+        return tDevicesDao.getPortsBySwitch(ip);
+    }
+
     @Override
     public List<Object[]> getPortStatus1() {
         return tDevicesDao.getPortStatus1();

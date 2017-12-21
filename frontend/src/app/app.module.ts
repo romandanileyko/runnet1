@@ -14,6 +14,8 @@ import {AdminService} from "./admin-component/admin.service";
 import {userStatus} from "./user-status-component/userstatus.component";
 import {DhcpComponent} from "./dhcp-component/dhcp.component";
 import {CustomerInfoComponent} from "./customer-component/customer-info.component";
+import {PortComponent} from "./port-component/port.component";
+import {PortService} from "./port-component/port.service";
 
 const appRoutes: Routes =[
   {path:'',component:LoginComponent},
@@ -22,7 +24,8 @@ const appRoutes: Routes =[
   {path:'user',component:UserComponent,canActivate:[AuthGuard]},
   {path:'user-status',component:userStatus,canActivate:[AuthGuard]},
   {path:'dhcplog',component:DhcpComponent,canActivate:[AuthGuard]},
-  {path:'customerinfo',component:CustomerInfoComponent,canActivate:[AuthGuard]}
+  {path:'customerinfo',component:CustomerInfoComponent,canActivate:[AuthGuard]},
+  {path:'port',component:PortComponent,canActivate:[AuthGuard]}
 ];
 
 @NgModule({
@@ -33,7 +36,8 @@ const appRoutes: Routes =[
     UserComponent,
     userStatus,
     DhcpComponent,
-    CustomerInfoComponent
+    CustomerInfoComponent,
+    PortComponent
   ],
   imports: [
     BrowserModule,
@@ -41,7 +45,7 @@ const appRoutes: Routes =[
     HttpModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [LoginService,AuthGuard,AdminService],
+  providers: [LoginService,AuthGuard,AdminService,PortService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
